@@ -6,10 +6,10 @@ return [
         'action' => 'index',
     ],
 
-    'account/login'=> [
+    'account/login' => [
         'controller' => 'account',
         'action' => 'login',
-        ],
+    ],
 
     'news/show' => [
         'controller' => 'news',

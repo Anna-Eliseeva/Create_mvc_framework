@@ -9,23 +9,16 @@
 namespace application\controllers;
 
 use application\core\Controller;
-use application\lib\Db;
 
 
 class MainController extends Controller
 {
     public function indexAction()
     {
-
-        $db = new Db;
-
-       // $form = '2; DELETE FROM users'; //Представим будто тут данные из формы
-        $params = [
-            'id' => 2
+        $result = $this->model->getNews();
+        $vars = [
+            'news' => $result,
         ];
-
-
-        $data = $db->column('SELECT name FROM `users` WHERE `id` = :id', $params);
-        $this->view->render('Главная страница');
+        $this->view->render('Главная страница', $vars);
     }
 }

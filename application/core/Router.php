@@ -7,6 +7,7 @@
  */
 
 namespace application\core;
+
 use application\core\View;
 
 class Router
@@ -23,17 +24,19 @@ class Router
     }
 
     /*Добавление маршрута*/
-    public function add($route, $params) {
-    $route = '#^'.$route.'$#';
+    public function add($route, $params)
+    {
+        $route = '#^' . $route . '$#';
 
-    /*После данной записи в переменной routes на 13 строке хранится массив из файла routes.php но ключи являются
-    регулярными выражениями*/
-    $this->routes[$route] = $params;
+        /*После данной записи в переменной routes на 13 строке хранится массив из файла routes.php но ключи являются
+        регулярными выражениями*/
+        $this->routes[$route] = $params;
 
     }
 
     /*Проверка на существование маршрута*/
-    public function match() {
+    public function match()
+    {
         /*Получим текущий url на котором мы находимся*/
         $url = trim($_SERVER['REQUEST_URI'], '/');
 
@@ -41,7 +44,7 @@ class Router
         foreach ($this->routes as $route => $params) {
 
             /*Проверяем соответсвие данных*/
-            if(preg_match($route, $url, $matches)) {
+            if (preg_match($route, $url, $matches)) {
                 $this->params = $params;
                 return true;
             }
@@ -50,26 +53,27 @@ class Router
     }
 
     /*Запуск роутера*/
-    public function run() {
+    public function run()
+    {
         if ($this->match()) {
 
-            $path = 'application\controllers\\'.ucfirst($this->params['controller']).'Controller';
+            $path = 'application\controllers\\' . ucfirst($this->params['controller']) . 'Controller';
 
             /*Проверка на существование класса*/
-            if(class_exists($path)) {
-             $action = $this->params['action'].'Action';
+            if (class_exists($path)) {
+                $action = $this->params['action'] . 'Action';
 
-             /*Проверка на сущетвование метода*/
-             if (method_exists($path, $action)) {
-                 $controller = new $path($this->params);
-                 $controller->$action();
-             } else {
-                 View::errorCode(404);
-             }
-            }else {
+                /*Проверка на сущетвование метода*/
+                if (method_exists($path, $action)) {
+                    $controller = new $path($this->params);
+                    $controller->$action();
+                } else {
+                    View::errorCode(404);
+                }
+            } else {
                 View::errorCode(404);
             }
-    } else {
+        } else {
             View::errorCode(404);
         }
     }

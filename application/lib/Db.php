@@ -25,9 +25,9 @@ class Db
     {
         $stmt = $this->db->prepare($sql);
         /*Создаем защиту от sql иньекций*/
-        if(!empty($params)) {
+        if (!empty($params)) {
             foreach ($params as $key => $val) {
-                $stmt->bindValue(':'.$key, $val);
+                $stmt->bindValue(':' . $key, $val);
             }
         }
         $stmt->execute();

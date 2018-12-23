@@ -25,20 +25,21 @@ class View
     {
         /*Напишем функцию которая массив распакует в переменную*/
         extract($vars);
-        $path = 'application/views/'.$this->path.'.php';
+        $path = 'application/views/' . $this->path . '.php';
         if (file_exists($path)) {
             ob_start();
 
             /*Подключаем шаблон*/
             require $path;
             $content = ob_get_clean();
-            require 'application/views/layouts/'.$this->layout.'.php';
+            require 'application/views/layouts/' . $this->layout . '.php';
         }
     }
 
     /*метод лля перенаправления страниц*/
-    public function redirect($url){
-        header('Location:'.$url);
+    public function redirect($url)
+    {
+        header('Location:' . $url);
         exit;
 
     }
@@ -52,10 +53,20 @@ class View
         /*Делаем проверку на существование файла*/
         if (file_exists($path)) {
 
-        /*Подключаем файл с страницами ошибок*/
-        require $path;
-    }
+            /*Подключаем файл с страницами ошибок*/
+            require $path;
+        }
         exit;
+    }
+
+    public function message($status, $message)
+    {
+        exit(json_encode(['status' => $status, 'message' => $message]));
+    }
+
+    public function location($url, $message)
+    {
+        exit(json_encode(['url' => $url]));
     }
 
 
